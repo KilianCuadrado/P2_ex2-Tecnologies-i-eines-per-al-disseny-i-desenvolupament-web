@@ -1,0 +1,41 @@
+<header class="fixed inset-x-0 top-0 z-50 flex w-full flex-wrap items-center gap-2 bg-slate-900/90 p-4 text-white backdrop-blur md:flex-nowrap md:gap-0">
+    <a class="hidden justify-center md:flex md:w-1/4" href="/">
+        <img class="h-auto w-1/2 max-w-36 rounded-lg" [src]="am_logo" alt="Arctic Monkeys" />
+    </a>
+
+    <button
+        class="ml-auto rounded border border-gray-300 px-3 py-2 md:hidden"
+        type="button"
+        (click)="toggleMenu()"
+    >
+        Menu
+    </button>
+
+    <nav
+        id="main-navigation"
+        class="w-full md:flex md:w-3/4 md:justify-center"
+        [class.hidden]="!menuOpen"
+    >
+        <a
+            class="mb-4 flex justify-center md:hidden"
+            href="/"
+        >
+            <img class="h-auto w-1/2 max-w-36 rounded-lg" [src]="am_logo" alt="Arctic Monkeys" />
+        </a>
+
+        <ul class="flex flex-col items-center gap-6 text-center font-['Bebas_Neue'] text-2xl uppercase tracking-widest md:flex-row md:items-center md:justify-center md:gap-10 md:text-3xl">
+            <li (click)="selectContent('home')">
+                <a class="cursor-pointer px-3 py-2 transition-colors hover:text-gray-400">Home</a>
+            </li>
+            <li (click)="selectContent('members')">
+                <a class="cursor-pointer px-3 py-2 transition-colors hover:text-gray-400">Members</a>
+            </li>
+            <li (click)="selectContent('songs')">
+                <a class="cursor-pointer px-3 py-2 transition-colors hover:text-gray-400">Albums/Singles</a>
+            </li>
+            <li (click)="selectContent('history')">
+                <a class="cursor-pointer px-3 py-2 transition-colors hover:text-gray-400">History</a>
+            </li>
+        </ul>
+    </nav>
+</header>
