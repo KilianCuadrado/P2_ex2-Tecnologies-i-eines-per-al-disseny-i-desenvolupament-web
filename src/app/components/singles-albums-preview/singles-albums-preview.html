@@ -1,0 +1,9 @@
+<article class="group overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+  <img [src]="album().image" [alt]="'Portada de ' + album().title" loading="lazy" class="aspect-square w-full object-cover transition group-hover:scale-105" />
+  <div class="p-5">
+    <p class="text-sm font-bold text-amber-600 dark:text-amber-300">{{ album().year }}</p>
+    <h3 class="mt-2 text-xl font-bold text-zinc-900 dark:text-white">{{ album().title }}</h3>
+    <p class="mt-3 text-zinc-600 dark:text-zinc-400">{{ album().description }}</p>
+    <a [href]="album().link" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex rounded-md bg-amber-400 px-4 py-2 font-bold text-zinc-950 hover:bg-amber-300">Más información</a>
+  </div>
+</article>
