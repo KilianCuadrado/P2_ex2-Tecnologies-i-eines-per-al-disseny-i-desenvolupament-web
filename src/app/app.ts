@@ -1,29 +1,9 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { SinglesAlbumsPreview } from './components/singles-albums-preview/singles-albums-preview';
-
-interface Member {
-  name: string;
-  role: string;
-  description: string;
-  image: string;
-}
-
-interface HistoryEvent {
-  year: string;
-  text: string;
-}
-
-export interface Album {
-  year: string;
-  title: string;
-  description: string;
-  image: string;
-  link: string;
-}
 
 @Component({
   imports: [Header, Footer, SinglesAlbumsPreview, ReactiveFormsModule],
@@ -32,7 +12,7 @@ export interface Album {
 })
 export class App {
   imageUrl = 'https://wallpapercat.com/w/full/d/6/c/2251019-3360x1890-desktop-hd-arctic-monkeys-band-wallpaper-image.jpg';
-  albums: Album[] = [
+  albums = [
     {
       year: '2006',
       title: "Whatever People Say I Am, That's What I'm Not",
@@ -83,10 +63,12 @@ export class App {
       link: 'https://open.spotify.com/artist/7Ln80lUS6He07XvHI8qqHH',
     },
   ];
-  isDark = true;
+  private formBuilder = inject(FormBuilder);
+  private document = inject(DOCUMENT);
+  isDark = this.document.documentElement.classList.toggle('dark', localStorage.getItem('theme') !== 'light');
   submitted = false;
   successMessage = false;
-  members: Member[] = [
+  members = [
     {
       name: 'Alex Turner',
       role: 'Voz y guitarra',
@@ -112,7 +94,7 @@ export class App {
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLL8IFGYvusS2dVUINFjP29QPcnxvOgU6fQpogqDvptA&s=10',
     },
   ];
-  history: HistoryEvent[] = [
+  history = [
     { year: '2002-2005', text: 'Alex Turner, Matt Helders y Jamie Cook forman la banda en Sheffield. Sus primeros conciertos y maquetas compartidas por Internet hacen crecer rápidamente su público.' },
     { year: '2006', text: "Publican Whatever People Say I Am, That's What I'm Not. El disco se convierte en un fenómeno del rock británico gracias a sus guitarras rápidas y sus letras sobre la vida nocturna." },
     { year: '2007-2011', text: 'Favourite Worst Nightmare, Humbug y Suck It and See muestran una banda que no quiere repetir la misma fórmula. El grupo experimenta con sonidos más oscuros, psicodélicos y melódicos.' },
@@ -120,27 +102,17 @@ export class App {
     { year: '2018', text: 'Tranquility Base Hotel & Casino supone un cambio radical: predominan el piano, los sintetizadores y una estética de ciencia ficción que demuestra la libertad creativa del grupo.' },
     { year: '2022', text: 'The Car continúa la etapa más elegante y cinematográfica de la banda, con arreglos de cuerda, melodías cuidadas y una atmósfera diferente a sus primeros discos.' },
   ];
-  contactForm!: FormGroup;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    @Inject(DOCUMENT) private document: Document,
-  ) {
-    this.contactForm = this.formBuilder.group({
-      nom: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      assumpte: ['', Validators.required],
-      missatge: ['', [Validators.required, Validators.minLength(10)]],
-    });
-    const savedTheme = localStorage.getItem('theme');
-    this.isDark = savedTheme !== 'light';
-    this.applyTheme();
-  }
+  contactForm: FormGroup = this.formBuilder.group({
+    nom: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    assumpte: ['', Validators.required],
+    missatge: ['', [Validators.required, Validators.minLength(10)]],
+  });
 
   toggleTheme() {
     this.isDark = !this.isDark;
     localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-    this.applyTheme();
+    this.document.documentElement.classList.toggle('dark', this.isDark);
   }
 
   submitContact() {
@@ -159,7 +131,4 @@ export class App {
     return control.invalid && (control.touched || this.submitted);
   }
 
-  private applyTheme() {
-    this.document.documentElement.classList.toggle('dark', this.isDark);
-  }
 }
