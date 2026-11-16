@@ -16,18 +16,20 @@
         </a>
       </li>
       <li>
-        <a 
-          class="block px-3 py-2 transition-colors hover:text-amber-500" 
-          routerLink="/members"  
-          (click)="closeMenu()">
+        <a
+          class="block px-3 py-2 transition-colors hover:text-amber-500"
+          routerLink="/members"
+          (click)="closeMenu()"
+          outerLinkActive="text-amber-500">
           Members
         </a>
       </li>
       <li>
         <a 
           class="block px-3 py-2 transition-colors hover:text-amber-500" 
-          routerLink="/albunssingles" 
-          (click)="closeMenu()">
+          routerLink="/singlesalbuns" 
+          (click)="closeMenu()"
+          outerLinkActive="text-amber-500">
           Albums/Singles
         </a>
       </li>
@@ -35,7 +37,8 @@
         <a 
           class="block px-3 py-2 transition-colors hover:text-amber-500"
           routerLink="/history" 
-          (click)="closeMenu()">
+          (click)="closeMenu()"
+          outerLinkActive="text-amber-500">
           History
         </a>
       </li>
