@@ -1,18 +1,222 @@
+<!-- Cabecera de la página -->
+<section class="bg-zinc-950 px-4 pb-14 pt-32 text-white md:px-8" aria-labelledby="members-page-title">
+  <div class="mx-auto max-w-7xl">
+    <p class="mb-3 text-xs font-bold uppercase tracking-[0.35em] text-amber-300">La banda</p>
+    <h1 id="members-page-title" class="font-['Bebas_Neue'] text-5xl uppercase tracking-[0.12em] md:text-7xl">
+      Miembros
+    </h1>
+    <p class="mt-6 max-w-3xl text-lg leading-8 text-zinc-300">
+      Cuatro amigos de Sheffield que empezaron tocando en garajes y acabaron llenando estadios. Aquí conocerás a cada uno
+      de ellos y también el proyecto paralelo más conocido de Alex Turner.
+    </p>
 
-<section>
-    <h2>Arctic Monkeys</h2>
-    <article class="bandMember">
-        @for(member of members; track member.name){
-            <img [src]="member.image" [alt]="'Foto de ' + member.name" loading="lazy" class="h-56 w-full object-cover" />
-            <div class="p-6">
-                <h3 class="font-['Bebas_Neue'] text-2xl uppercase tracking-wider">{{ member.name }}</h3>
-                <p class="mt-2 font-semibold text-amber-600 dark:text-amber-300">{{ member.role }}</p>
-                <p class="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{{ member.description }}</p>
-            </div>
-        }
-    </article>
+    <ul class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+      @for (stat of stats; track stat.label) {
+        <li class="rounded-xl border border-zinc-800 bg-zinc-900 p-5 text-center">
+          <p class="font-['Bebas_Neue'] text-4xl tracking-wider text-amber-300">{{ stat.value }}</p>
+          <p class="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">{{ stat.label }}</p>
+        </li>
+      }
+    </ul>
+  </div>
 </section>
-<section>
-    <h2>The Last Shadow Puppets</h2>
 
+<!-- Arctic Monkeys -->
+<section
+  id="arctic-monkeys"
+  class="mx-auto max-w-7xl scroll-mt-24 border-b border-zinc-200 px-4 py-14 dark:border-zinc-800 md:px-8"
+  aria-labelledby="am-title"
+>
+  <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">Formación actual</p>
+  <h2 id="am-title" class="font-['Bebas_Neue'] text-4xl uppercase tracking-[0.12em] md:text-5xl">Arctic Monkeys</h2>
+  <p class="mt-4 max-w-3xl leading-7 text-zinc-600 dark:text-zinc-400">
+    La formación combina cuatro personalidades muy diferentes. Cada miembro aporta una parte esencial del sonido, desde
+    las letras y las guitarras hasta la batería y el bajo.
+  </p>
+
+  <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+    @for (member of members; track member.name) {
+      <article
+        class="group flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900"
+      >
+        <div class="relative overflow-hidden">
+          <img
+            [src]="member.image"
+            [alt]="'Foto de ' + member.name"
+            loading="lazy"
+            class="h-64 w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+          <span
+            class="absolute left-4 top-4 rounded-full bg-amber-400 px-3 py-1 text-xs font-bold uppercase tracking-widest text-zinc-950 shadow"
+          >
+            {{ member.role }}
+          </span>
+        </div>
+
+        <div class="flex flex-1 flex-col p-6">
+          <h3 class="font-['Bebas_Neue'] text-3xl uppercase tracking-wider">{{ member.name }}</h3>
+
+          <dl class="mt-4 grid grid-cols-1 gap-3 rounded-lg bg-white/60 p-3 text-sm dark:bg-zinc-950/40">
+            <div>
+              <dt class="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Nacimiento</dt>
+              <dd class="mt-0.5 whitespace-nowrap text-zinc-800 dark:text-zinc-200">{{ member.born }}</dd>
+            </div>
+            <div>
+              <dt class="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Origen</dt>
+              <dd class="mt-0.5 text-zinc-800 dark:text-zinc-200">{{ member.hometown }}</dd>
+            </div>
+          </dl>
+
+          <p class="mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{{ member.description }}</p>
+
+          <ul class="mt-4 flex flex-wrap gap-2" aria-label="Instrumentos">
+            @for (instrument of member.instruments; track instrument) {
+              <li
+                class="rounded-md border border-zinc-300 px-2 py-1 text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:border-zinc-700 dark:text-zinc-300"
+              >
+                {{ instrument }}
+              </li>
+            }
+          </ul>
+
+          <div class="mt-auto pt-5">
+            <p
+              class="border-l-4 border-amber-400 bg-white/60 py-2 pl-3 text-sm italic text-zinc-700 dark:bg-zinc-950/40 dark:text-zinc-300"
+            >
+              <span class="not-italic font-bold text-amber-600 dark:text-amber-300">¿Sabías que…?</span>
+              {{ member.fact }}
+            </p>
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<!-- The Last Shadow Puppets -->
+<section
+  id="the-last-shadow-puppets"
+  class="mx-auto max-w-7xl scroll-mt-24 px-4 py-14 md:px-8"
+  aria-labelledby="tlsp-title"
+>
+  <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">Proyecto paralelo</p>
+  <h2 id="tlsp-title" class="font-['Bebas_Neue'] text-4xl uppercase tracking-[0.12em] md:text-5xl">
+    The Last Shadow Puppets
+  </h2>
+  <p class="mt-4 max-w-3xl leading-7 text-zinc-600 dark:text-zinc-400">
+    Supergrupo formado en 2007 por Alex Turner y Miles Kane, con James Ford a la batería y la producción. Su pop
+    orquestal se apoya en los arreglos de cuerda de Owen Pallett. En 2015 se unió el bajista Zach Dawes.
+  </p>
+  <p class="mt-3 max-w-3xl text-sm leading-6 text-zinc-500">
+    <span class="font-bold text-amber-600 dark:text-amber-300">¿De dónde viene el nombre?</span>
+    Primero eligieron «Shadow Puppets» porque sonaba a girl group de los años 60, la música que escuchaban entonces.
+    Como ese nombre ya estaba registrado, añadieron «The Last». También pensaron en «Turner and Kane», pero lo
+    descartaron porque sonaba «a película mala de policías».
+  </p>
+
+  <h3 class="mt-10 text-xs font-bold uppercase tracking-[0.3em] text-zinc-500">Miembros oficiales</h3>
+  <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+    @for (member of shadowPuppets; track member.name) {
+      <article
+        class="group flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900"
+      >
+        <div class="relative overflow-hidden">
+          <img
+            [src]="member.image"
+            [alt]="'Foto de ' + member.name"
+            loading="lazy"
+            class="h-64 w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+          <span
+            class="absolute left-4 top-4 rounded-full bg-amber-400 px-3 py-1 text-xs font-bold uppercase tracking-widest text-zinc-950 shadow"
+          >
+            {{ member.role }}
+          </span>
+        </div>
+
+        <div class="flex flex-1 flex-col p-6">
+          <h3 class="font-['Bebas_Neue'] text-3xl uppercase tracking-wider">{{ member.name }}</h3>
+
+          <dl class="mt-4 grid grid-cols-1 gap-3 rounded-lg bg-white/60 p-3 text-sm dark:bg-zinc-950/40">
+            <div>
+              <dt class="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Nacimiento</dt>
+              <dd class="mt-0.5 whitespace-nowrap text-zinc-800 dark:text-zinc-200">{{ member.born }}</dd>
+            </div>
+            <div>
+              <dt class="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Origen</dt>
+              <dd class="mt-0.5 text-zinc-800 dark:text-zinc-200">{{ member.hometown }}</dd>
+            </div>
+          </dl>
+
+          <p class="mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{{ member.description }}</p>
+
+          <ul class="mt-4 flex flex-wrap gap-2" aria-label="Instrumentos">
+            @for (instrument of member.instruments; track instrument) {
+              <li
+                class="rounded-md border border-zinc-300 px-2 py-1 text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:border-zinc-700 dark:text-zinc-300"
+              >
+                {{ instrument }}
+              </li>
+            }
+          </ul>
+
+          <div class="mt-auto pt-5">
+            <p
+              class="border-l-4 border-amber-400 bg-white/60 py-2 pl-3 text-sm italic text-zinc-700 dark:bg-zinc-950/40 dark:text-zinc-300"
+            >
+              <span class="not-italic font-bold text-amber-600 dark:text-amber-300">¿Sabías que…?</span>
+              {{ member.fact }}
+            </p>
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+
+  <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <aside
+      class="rounded-xl border border-zinc-200 bg-zinc-950 p-6 text-white shadow-lg dark:border-zinc-800"
+      aria-labelledby="tlsp-albums-title"
+    >
+      <h3 id="tlsp-albums-title" class="font-['Bebas_Neue'] text-3xl uppercase tracking-wider text-amber-300">
+        Discografía
+      </h3>
+      <ol class="mt-6 space-y-6 border-l border-amber-400 pl-6">
+        @for (album of shadowPuppetsAlbums; track album.title) {
+          <li>
+            <p class="font-bold uppercase tracking-[0.2em] text-amber-300">{{ album.year }}</p>
+            <p class="mt-1 text-zinc-200">{{ album.title }}</p>
+          </li>
+        }
+      </ol>
+      <p class="mt-8 text-sm leading-6 text-zinc-400">
+        Los dos álbumes llegaron al número 1 en el Reino Unido. <em>The Age of the Understatement</em> fue nominado al
+        Mercury Prize 2008, que acabó ganando Elbow.
+      </p>
+    </aside>
+
+    <div
+      class="rounded-xl border border-zinc-200 bg-zinc-100 p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-900 lg:col-span-2"
+    >
+      <h3 class="font-['Bebas_Neue'] text-3xl uppercase tracking-wider">Músicos de gira</h3>
+      <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+        En directo el grupo se amplía con otros músicos y, en 2016, con una sección de cuerdas (violines y violonchelo).
+      </p>
+      <ul class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        @for (musician of shadowPuppetsLive; track musician.name) {
+          <li class="flex items-start justify-between gap-3 rounded-lg bg-white p-3 dark:bg-zinc-950/50">
+            <div>
+              <p class="font-semibold text-zinc-900 dark:text-white">{{ musician.name }}</p>
+              <p class="text-xs text-zinc-500">{{ musician.role }}</p>
+            </div>
+            <span
+              class="rounded-full bg-amber-400 px-2 py-0.5 text-[0.65rem] font-bold tracking-widest text-zinc-950"
+            >
+              {{ musician.years }}
+            </span>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
 </section>

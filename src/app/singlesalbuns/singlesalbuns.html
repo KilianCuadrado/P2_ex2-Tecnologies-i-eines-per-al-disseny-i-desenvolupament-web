@@ -1,1 +1,331 @@
-<p>singlesalbuns works!</p>
+<!-- Cabecera de la página -->
+<section class="bg-zinc-950 px-4 pb-14 pt-32 text-white md:px-8" aria-labelledby="albums-page-title">
+  <div class="mx-auto max-w-7xl">
+    <p class="mb-3 text-xs font-bold uppercase tracking-[0.35em] text-amber-300">Discografía</p>
+    <h1 id="albums-page-title" class="font-['Bebas_Neue'] text-5xl uppercase tracking-[0.12em] md:text-7xl">
+      Álbumes y singles
+    </h1>
+    <p class="mt-6 max-w-3xl text-lg leading-8 text-zinc-300">
+      Del garage rock de Sheffield al pop orquestal y la ciencia ficción. Aquí tienes los álbumes de Arctic Monkeys y de
+      The Last Shadow Puppets, con todos sus singles, EPs y directos (datos de Wikipedia).
+    </p>
+  </div>
+</section>
+
+<!-- Álbumes -->
+<section
+  id="albums"
+  class="mx-auto max-w-7xl scroll-mt-24 border-b border-zinc-200 px-4 py-14 dark:border-zinc-800 md:px-8"
+  aria-labelledby="albums-title"
+>
+  <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <div>
+      <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">Estudio</p>
+      <h2 id="albums-title" class="font-['Bebas_Neue'] text-4xl uppercase tracking-[0.12em] md:text-5xl">Álbumes</h2>
+    </div>
+
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar álbumes por banda">
+      @for (filter of filters; track filter) {
+        <button
+          type="button"
+          (click)="setFilter(filter)"
+          [attr.aria-pressed]="activeFilter === filter"
+          class="rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] transition"
+          [class]="
+            activeFilter === filter
+              ? 'border-amber-400 bg-amber-400 text-zinc-950'
+              : 'border-zinc-300 text-zinc-700 hover:border-amber-400 hover:text-amber-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:text-amber-300'
+          "
+        >
+          {{ filter }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    @for (album of filteredAlbums; track album.title) {
+      <article
+        class="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900"
+      >
+        <div class="relative overflow-hidden">
+          <img
+            [src]="album.image"
+            [alt]="'Portada de ' + album.title"
+            loading="lazy"
+            class="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+          <span
+            class="absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest shadow"
+            [class]="album.band === 'Arctic Monkeys' ? 'bg-amber-400 text-zinc-950' : 'bg-zinc-950 text-amber-300'"
+          >
+            {{ album.band === 'Arctic Monkeys' ? 'AM' : 'TLSP' }}
+          </span>
+        </div>
+
+        <div class="flex flex-1 flex-col p-6">
+          <p class="text-sm font-bold text-amber-600 dark:text-amber-300">{{ album.year }} · {{ album.band }}</p>
+          <h3 class="mt-2 text-xl font-bold text-zinc-900 dark:text-white">{{ album.title }}</h3>
+          <p class="mt-1 text-xs uppercase tracking-[0.15em] text-zinc-500">Producción: {{ album.producer }}</p>
+          <p class="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{{ album.description }}</p>
+
+          <dl class="mt-4 grid grid-cols-2 gap-3 rounded-lg bg-zinc-100 p-3 text-sm dark:bg-zinc-950/50">
+            <div class="col-span-2">
+              <dt class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Lanzamiento</dt>
+              <dd class="text-zinc-800 dark:text-zinc-200">{{ album.released }}</dd>
+            </div>
+            <div>
+              <dt class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Lista UK</dt>
+              <dd class="text-zinc-800 dark:text-zinc-200">N.º {{ album.ukPeak }}</dd>
+            </div>
+            @if (album.ukSales) {
+              <div>
+                <dt class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Ventas UK</dt>
+                <dd class="text-zinc-800 dark:text-zinc-200">{{ album.ukSales }}</dd>
+              </div>
+            }
+            <div class="col-span-2">
+              <dt class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Certificación</dt>
+              <dd class="text-zinc-800 dark:text-zinc-200">{{ album.certification }}</dd>
+            </div>
+          </dl>
+
+          <p class="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-zinc-900 dark:text-zinc-200">Singles</p>
+          <ul class="mt-2 flex flex-wrap gap-2">
+            @for (single of album.singles; track single) {
+              <li
+                class="rounded-md border border-zinc-300 px-2 py-1 text-xs text-zinc-700 dark:border-zinc-700 dark:text-zinc-300"
+              >
+                {{ single }}
+              </li>
+            }
+          </ul>
+
+          <div class="mt-auto pt-6">
+            <a
+              [href]="album.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex rounded-md bg-amber-400 px-4 py-2 font-bold text-zinc-950 transition hover:bg-amber-300"
+            >
+              Escuchar en Spotify
+            </a>
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<!-- Singles oficiales -->
+<section
+  id="singles"
+  class="mx-auto max-w-7xl scroll-mt-24 border-b border-zinc-200 px-4 py-14 dark:border-zinc-800 md:px-8"
+  aria-labelledby="singles-title"
+>
+  <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+    <div>
+      <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">Lanzamientos</p>
+      <h2 id="singles-title" class="font-['Bebas_Neue'] text-4xl uppercase tracking-[0.12em] md:text-5xl">
+        Singles oficiales
+      </h2>
+    </div>
+    <p class="text-sm text-zinc-500">
+      {{ filteredSingles.length }} singles · Filtro: <span class="font-bold">{{ activeFilter }}</span>
+    </p>
+  </div>
+
+  <!-- Singles que no pertenecen a ningún álbum de estudio -->
+  <div class="mt-8 rounded-xl border border-amber-400/60 bg-amber-50 p-6 dark:bg-amber-400/5">
+    <h3 class="font-['Bebas_Neue'] text-2xl uppercase tracking-wider text-zinc-900 dark:text-white">
+      Singles fuera de álbum
+    </h3>
+    <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+      Canciones publicadas como single oficial que no forman parte de ningún álbum de estudio (sencillos sueltos, EPs y recopilatorios).
+    </p>
+    <ul class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+      @for (single of nonAlbumSingles; track single.title) {
+        <li>
+          <a
+            [href]="spotifySearch(single.title, single.band)"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex h-full flex-col rounded-lg bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:bg-zinc-900"
+          >
+            <span class="font-['Bebas_Neue'] text-2xl leading-none text-amber-500 dark:text-amber-300">
+              {{ single.year }}
+            </span>
+            <span
+              class="mt-1 font-bold text-zinc-900 transition group-hover:text-amber-600 dark:text-white dark:group-hover:text-amber-300"
+            >
+              {{ single.title }}
+            </span>
+            <span class="mt-1 text-xs text-zinc-500">{{ single.album }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <h3 class="mt-10 text-xs font-bold uppercase tracking-[0.3em] text-zinc-500">Todos los singles por orden cronológico</h3>
+  <ol class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+    @for (single of filteredSingles; track single.title) {
+      <li>
+        <a
+          [href]="spotifySearch(single.title, single.band)"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex h-full items-center gap-4 rounded-lg border border-zinc-200 bg-zinc-100 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
+        >
+          <span class="font-['Bebas_Neue'] text-3xl leading-none text-amber-500 dark:text-amber-300">
+            {{ single.year }}
+          </span>
+          <div class="min-w-0">
+            <h3
+              class="font-bold text-zinc-900 transition group-hover:text-amber-600 dark:text-white dark:group-hover:text-amber-300"
+            >
+              {{ single.title }}
+            </h3>
+            @if (single.nonAlbum) {
+              <span
+                class="mt-1 inline-block rounded-full bg-amber-400 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-widest text-zinc-950"
+              >
+                Fuera de álbum
+              </span>
+            }
+            <p class="truncate text-xs text-zinc-500">
+              {{ single.album }} · {{ single.band === 'Arctic Monkeys' ? 'AM' : 'TLSP' }}
+            </p>
+            <p class="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+              <span class="font-semibold">UK:</span> {{ single.ukPeak === '—' ? 'no entró' : 'n.º ' + single.ukPeak }}
+              @if (single.certification) {
+                · {{ single.certification }}
+              }
+            </p>
+          </div>
+        </a>
+      </li>
+    }
+  </ol>
+
+  <!-- Singles promocionales -->
+  @if (activeFilter !== 'The Last Shadow Puppets') {
+    <h3 class="mt-12 font-['Bebas_Neue'] text-2xl uppercase tracking-wider">Singles promocionales</h3>
+    <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+      Canciones de Arctic Monkeys distribuidas a radios o en formato digital para promocionar un disco, pero que no
+      cuentan como single oficial.
+    </p>
+    <ul class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+      @for (promo of promoSingles; track promo.title) {
+        <li
+          class="flex h-full items-center gap-4 rounded-lg border border-dashed border-zinc-300 p-4 dark:border-zinc-700"
+        >
+          <span class="font-['Bebas_Neue'] text-2xl leading-none text-zinc-400">{{ promo.year }}</span>
+          <div class="min-w-0">
+            <p class="font-semibold text-zinc-900 dark:text-white">{{ promo.title }}</p>
+            <p class="truncate text-xs text-zinc-500">{{ promo.album }}</p>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>
+
+<!-- EPs, directos y maquetas -->
+<section
+  id="other-releases"
+  class="mx-auto max-w-7xl scroll-mt-24 border-b border-zinc-200 px-4 py-14 dark:border-zinc-800 md:px-8"
+  aria-labelledby="other-title"
+>
+  <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">Más lanzamientos</p>
+  <h2 id="other-title" class="font-['Bebas_Neue'] text-4xl uppercase tracking-[0.12em] md:text-5xl">
+    EPs, directos y maquetas
+  </h2>
+
+  <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+    @for (item of filteredOther; track item.title + item.type) {
+      <article
+        class="flex flex-col rounded-xl border border-zinc-200 bg-zinc-100 p-5 shadow transition hover:-translate-y-1 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900"
+      >
+        <span
+          class="w-fit rounded-full px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest"
+          [class]="
+            item.type === 'EP'
+              ? 'bg-amber-400 text-zinc-950'
+              : item.type === 'Directo'
+                ? 'bg-zinc-950 text-amber-300 dark:bg-white dark:text-zinc-950'
+                : 'border border-zinc-400 text-zinc-600 dark:text-zinc-300'
+          "
+        >
+          {{ item.type }}
+        </span>
+        <h3 class="mt-3 font-bold text-zinc-900 dark:text-white">{{ item.title }}</h3>
+        <p class="text-xs uppercase tracking-[0.15em] text-zinc-500">{{ item.band }}</p>
+        <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400">{{ item.released }}</p>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400">Sello: {{ item.label }}</p>
+        @if (item.certification) {
+          <p class="mt-auto pt-3 text-sm font-semibold text-amber-600 dark:text-amber-300">{{ item.certification }}</p>
+        }
+      </article>
+    }
+  </div>
+</section>
+
+<!-- Canciones más escuchadas -->
+<section id="top-songs" class="mx-auto max-w-7xl scroll-mt-24 px-4 py-14 md:px-8" aria-labelledby="top-title">
+  <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">Certificaciones</p>
+  <h2 id="top-title" class="font-['Bebas_Neue'] text-4xl uppercase tracking-[0.12em] md:text-5xl">
+    Canciones más escuchadas
+  </h2>
+  <p class="mt-4 max-w-3xl leading-7 text-zinc-600 dark:text-zinc-400">
+    Las canciones de Arctic Monkeys con más unidades certificadas (ventas + streaming) según la BPI (Reino Unido) y la
+    RIAA (Estados Unidos). Varias de las más escuchadas, como «I Wanna Be Yours», «Mardy Bum» o «505», nunca se
+    publicaron como single.
+  </p>
+
+  <ol class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+    @for (song of topSongs; track song.title; let i = $index) {
+      <li>
+        <a
+          [href]="spotifySearch(song.title)"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex h-full gap-5 rounded-xl border border-zinc-200 bg-white p-5 shadow transition hover:-translate-y-1 hover:border-amber-400 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900"
+        >
+          <span
+            class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full font-['Bebas_Neue'] text-3xl"
+            [class]="i < 3 ? 'bg-amber-400 text-zinc-950' : 'bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300'"
+          >
+            {{ i + 1 }}
+          </span>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <h3
+                class="text-lg font-bold text-zinc-900 transition group-hover:text-amber-600 dark:text-white dark:group-hover:text-amber-300"
+              >
+                {{ song.title }}
+              </h3>
+              @if (!song.wasSingle) {
+                <span
+                  class="rounded-full border border-zinc-300 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-widest text-zinc-500 dark:border-zinc-700"
+                >
+                  No fue single
+                </span>
+              }
+            </div>
+            <p class="mt-1 text-xs uppercase tracking-[0.15em] text-zinc-500">{{ song.year }} · {{ song.album }}</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <span class="rounded-md bg-zinc-100 px-2 py-1 dark:bg-zinc-800">
+                <span class="font-bold">BPI:</span> {{ song.bpiLabel }}
+              </span>
+              <span class="rounded-md bg-zinc-100 px-2 py-1 dark:bg-zinc-800">
+                <span class="font-bold">RIAA:</span> {{ song.riaaLabel }}
+              </span>
+            </div>
+          </div>
+        </a>
+      </li>
+    }
+  </ol>
+  <p class="mt-6 text-xs text-zinc-500">Fuente: Wikipedia, «Arctic Monkeys discography».</p>
+</section>
