@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 // Datos extraídos de Wikipedia (Arctic Monkeys discography y The Last Shadow Puppets).
 // ukPeak = puesto máximo en la lista oficial del Reino Unido.
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-singlesalbuns',
   templateUrl: './singlesalbuns.html',
 })
