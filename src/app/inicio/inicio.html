@@ -19,6 +19,22 @@
         Su sonido ha evolucionado desde el garage rock hasta propuestas más oscuras,
         elegantes y cinematográficas.
       </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a
+          routerLink="/singlesalbuns"
+          class="inline-flex items-center rounded-lg bg-amber-400 px-6 py-3 text-sm font-bold uppercase tracking-[0.2em] text-zinc-950 transition hover:bg-amber-300"
+        >
+          Explorar discografía
+        </a>
+        <a
+          href="https://store-eu.arcticmonkeys.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded-lg border border-zinc-300 px-6 py-3 text-sm font-bold uppercase tracking-[0.2em] text-zinc-900 transition hover:border-amber-400 hover:text-amber-600 dark:border-zinc-700 dark:text-zinc-100 dark:hover:text-amber-300"
+        >
+          Tienda oficial
+        </a>
+      </div>
     </div>
   </section>
 
@@ -49,18 +65,30 @@
     </div>
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       @for (album of albums; track album.title) {
-        <article class="group overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
-            <img [src]="album.image" [alt]="'Portada de ' + album.title" loading="lazy" class="aspect-square w-full object-cover transition group-hover:scale-105" />
-            <div class="p-5">
-                <p class="text-sm font-bold text-amber-600 dark:text-amber-300">{{ album.year }}</p>
+        <article class="group flex flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+            <img
+              [src]="album.cover800"
+              [srcset]="album.srcset"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              [alt]="'Portada de ' + album.title"
+              loading="lazy"
+              class="aspect-square w-full object-cover transition group-hover:scale-105"
+            />
+            <div class="flex flex-1 flex-col p-5">
+                <p class="text-sm font-bold text-amber-600 dark:text-amber-300">{{ album.year }} · {{ album.band }}</p>
                 <h3 class="mt-2 text-xl font-bold text-zinc-900 dark:text-white">{{ album.title }}</h3>
                 <p class="mt-3 text-zinc-600 dark:text-zinc-400">{{ album.description }}</p>
-                <a [href]="album.link" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex rounded-md bg-amber-400 px-4 py-2 font-bold text-zinc-950 hover:bg-amber-300">Más información</a>
+                <div class="mt-auto flex flex-wrap gap-3 pt-5">
+                  <a [routerLink]="['/singlesalbuns', album.title]" class="inline-flex rounded-md bg-amber-400 px-4 py-2 text-sm font-bold text-zinc-950 transition hover:bg-amber-300">Ver álbum</a>
+                  <a [href]="album.link" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-md border border-zinc-300 px-4 py-2 text-sm font-bold text-zinc-800 transition hover:border-amber-400 hover:text-amber-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:text-amber-300">Spotify</a>
+                </div>
             </div>
         </article>
       }
     </div>
   </section>
+
+  <app-gallery></app-gallery>
 
   <section id="history" class="scroll-mt-24 mx-auto max-w-6xl border-b border-zinc-200 px-4 py-14 dark:border-zinc-800 md:px-8" aria-labelledby="history-title">
     <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">Desde 2002</p>
@@ -91,22 +119,22 @@
       <form [formGroup]="contactForm" (ngSubmit)="submitContact()" novalidate class="mt-6 grid max-w-2xl gap-5">
         <div>
           <label for="nom" class="mb-1 block text-sm font-semibold">Nombre</label>
-          <input id="nom" formControlName="nom" type="text" autocomplete="name" required placeholder="Tu nombre" class="w-full rounded-lg border border-zinc-300 bg-white p-3 outline-none transition focus:border-amber-400 invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-950" />
+          <input id="nom" formControlName="nom" type="text" autocomplete="name" placeholder="Tu nombre" [class.border-red-500]="showError('nom')" class="w-full rounded-lg border border-zinc-300 bg-white p-3 outline-none transition focus:border-amber-400 invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-950" />
           @if (showError('nom')) { <p class="mt-1 text-sm text-red-600 dark:text-red-400">Escribe tu nombre.</p> }
         </div>
         <div>
           <label for="email" class="mb-1 block text-sm font-semibold">Email</label>
-          <input id="email" formControlName="email" type="email" autocomplete="email" required placeholder="tu@email.com" class="w-full rounded-lg border border-zinc-300 bg-white p-3 outline-none transition focus:border-amber-400 invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-950" />
+          <input id="email" formControlName="email" type="email" autocomplete="email" placeholder="tu@email.com" [class.border-red-500]="showError('email')" class="w-full rounded-lg border border-zinc-300 bg-white p-3 outline-none transition focus:border-amber-400 invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-950" />
           @if (showError('email')) { <p class="mt-1 text-sm text-red-600 dark:text-red-400">Escribe un email válido.</p> }
         </div>
         <div>
           <label for="assumpte" class="mb-1 block text-sm font-semibold">Asunto</label>
-          <input id="assumpte" formControlName="assumpte" type="text" required placeholder="Motivo del mensaje" class="w-full rounded-lg border border-zinc-300 bg-white p-3 outline-none transition focus:border-amber-400 invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-950" />
+          <input id="assumpte" formControlName="assumpte" type="text" placeholder="Motivo del mensaje" [class.border-red-500]="showError('assumpte')" class="w-full rounded-lg border border-zinc-300 bg-white p-3 outline-none transition focus:border-amber-400 invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-950" />
           @if (showError('assumpte')) { <p class="mt-1 text-sm text-red-600 dark:text-red-400">Escribe un asunto.</p> }
         </div>
         <div>
           <label for="missatge" class="mb-1 block text-sm font-semibold">Mensaje</label>
-          <textarea id="missatge" formControlName="missatge" rows="4" required placeholder="Tu mensaje" class="w-full rounded-lg border border-zinc-300 bg-white p-3 outline-none transition focus:border-amber-400 invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-950"></textarea>
+          <textarea id="missatge" formControlName="missatge" rows="4" placeholder="Tu mensaje" [class.border-red-500]="showError('missatge')" class="w-full rounded-lg border border-zinc-300 bg-white p-3 outline-none transition focus:border-amber-400 invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-950"></textarea>
           @if (showError('missatge')) { <p class="mt-1 text-sm text-red-600 dark:text-red-400">Escribe al menos 10 caracteres.</p> }
         </div>
         <button type="submit" class="inline-flex w-fit rounded-lg bg-amber-400 px-5 py-3 text-sm font-bold uppercase tracking-[0.2em] text-zinc-950 transition hover:bg-amber-300">Enviar</button>

@@ -1,0 +1,114 @@
+<section
+  id="gallery"
+  class="mx-auto max-w-6xl scroll-mt-24 border-b border-zinc-200 px-4 py-14 dark:border-zinc-800 md:px-8"
+  aria-labelledby="gallery-title"
+>
+  <div class="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div>
+      <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">
+        Arte visual · WebP Optimizado
+      </p>
+      <h2 id="gallery-title" class="font-['Bebas_Neue'] text-4xl uppercase tracking-[0.12em] md:text-5xl">
+        Galería de portadas
+      </h2>
+      <p class="mt-2 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+        Portadas oficiales en formato WebP con carga diferida (<code>loading="lazy"</code>) y adaptación automática de
+        resolución (<code>srcset</code> y <code>sizes</code>: 400px, 800px y 1200px). Haz clic en cualquier portada para
+        ampliarla en alta definición.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3">
+    @for (album of albums; track album.title) {
+      <figure
+        class="group relative overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 shadow-md transition duration-300 hover:-translate-y-1 hover:border-amber-400 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900"
+      >
+        <button
+          type="button"
+          (click)="openPreview(album)"
+          class="block w-full text-left focus:outline-none focus:ring-2 focus:ring-amber-400"
+          [attr.aria-label]="'Ampliar portada de ' + album.title"
+        >
+          <img
+            [src]="album.cover800"
+            [srcset]="album.srcset"
+            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 360px"
+            [alt]="'Arte de portada oficial del álbum ' + album.title + ' (' + album.year + ') de ' + album.band"
+            loading="lazy"
+            decoding="async"
+            width="800"
+            height="800"
+            class="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+          <figcaption
+            class="flex items-center justify-between bg-gradient-to-t from-zinc-950/90 via-zinc-950/60 to-transparent p-4 text-white"
+          >
+            <div class="min-w-0 pr-2">
+              <p class="text-xs font-bold uppercase tracking-widest text-amber-300">{{ album.year }} · {{ album.band === 'Arctic Monkeys' ? 'AM' : 'TLSP' }}</p>
+              <p class="truncate text-sm font-bold">{{ album.title }}</p>
+            </div>
+            <span
+              class="shrink-0 rounded-full bg-amber-400 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-zinc-950 transition group-hover:bg-amber-300"
+            >
+              Ver HD
+            </span>
+          </figcaption>
+        </button>
+      </figure>
+    }
+  </div>
+
+  @if (selectedAlbum(); as album) {
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/85 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'Vista previa de ' + album.title"
+      (click)="closePreview()"
+    >
+      <div
+        class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-white shadow-2xl"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.25em] text-amber-300">
+              {{ album.year }} · {{ album.band }}
+            </p>
+            <h3 class="mt-1 font-['Bebas_Neue'] text-3xl uppercase tracking-wider">{{ album.title }}</h3>
+          </div>
+          <button
+            type="button"
+            (click)="closePreview()"
+            class="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-zinc-300 transition hover:border-amber-400 hover:text-amber-300"
+          >
+            Cerrar ✕
+          </button>
+        </div>
+
+        <img
+          [src]="album.cover1200"
+          [srcset]="album.srcset"
+          sizes="(max-width: 768px) 90vw, 640px"
+          [alt]="'Portada en alta resolución de ' + album.title"
+          loading="lazy"
+          width="1200"
+          height="1200"
+          class="mt-4 aspect-square max-h-[60vh] w-full rounded-xl object-contain"
+        />
+
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <p class="text-sm text-zinc-300">{{ album.description }}</p>
+          <a
+            [routerLink]="['/singlesalbuns', album.title]"
+            (click)="closePreview()"
+            class="inline-flex rounded-lg bg-amber-400 px-4 py-2 text-xs font-bold uppercase tracking-widest text-zinc-950 transition hover:bg-amber-300"
+          >
+            Ver ficha del álbum
+          </a>
+        </div>
+      </div>
+    </div>
+  }
+</section>

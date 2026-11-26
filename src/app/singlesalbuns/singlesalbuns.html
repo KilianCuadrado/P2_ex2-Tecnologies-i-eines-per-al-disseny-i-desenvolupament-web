@@ -50,7 +50,9 @@
       >
         <div class="relative overflow-hidden">
           <img
-            [src]="album.image"
+            [src]="album.cover800"
+            [srcset]="album.srcset"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             [alt]="'Portada de ' + album.title"
             loading="lazy"
             class="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
@@ -101,12 +103,20 @@
             }
           </ul>
 
-          <div class="mt-auto pt-6">
+          <div class="mt-auto flex flex-wrap gap-3 pt-6">
             <a
               [routerLink]="['/singlesalbuns', album.title]"
-              class="inline-flex rounded-md bg-amber-400 px-4 py-2 font-bold text-zinc-950 transition hover:bg-amber-300"
+              class="inline-flex rounded-md bg-amber-400 px-4 py-2 text-sm font-bold text-zinc-950 transition hover:bg-amber-300"
             >
-              Escuchar en Spotify
+              Ver pistas y detalles
+            </a>
+            <a
+              [href]="album.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex rounded-md border border-zinc-300 px-4 py-2 text-sm font-bold text-zinc-800 transition hover:border-amber-400 hover:text-amber-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:text-amber-300"
+            >
+              Spotify
             </a>
           </div>
         </div>
