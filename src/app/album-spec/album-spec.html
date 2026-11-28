@@ -42,32 +42,21 @@
             <dd class="mt-1 text-zinc-200">{{ album.certification }}</dd>
           </div>
         </dl>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            [href]="album.link"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-lg bg-amber-400 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-zinc-950 transition hover:bg-amber-300"
+          >
+            Abrir en Spotify
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-14 md:px-8" aria-labelledby="tracklist-title">
-    <p class="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">
-      {{ album.songs.length }} pistas
-    </p>
-    <h2 id="tracklist-title" class="font-['Bebas_Neue'] text-4xl uppercase tracking-[0.12em]">
-      Lista de canciones
-    </h2>
-
-    <ol class="mt-6 divide-y divide-zinc-200 rounded-2xl border border-zinc-200 bg-zinc-100 dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
-      @for (song of album.songs; track song.id) {
-        <li class="flex items-center justify-between gap-4 px-5 py-4">
-          <div class="flex items-center gap-4">
-            <span class="font-['Bebas_Neue'] text-2xl text-amber-600 dark:text-amber-300">
-              {{ song.id < 10 ? '0' + song.id : song.id }}
-            </span>
-            <span class="font-semibold text-zinc-900 dark:text-zinc-100">{{ song.name }}</span>
-          </div>
-          <span class="text-xs uppercase tracking-widest text-zinc-500">{{ album.band }}</span>
-        </li>
-      }
-    </ol>
-  </section>
+  <app-audio-player [album]="album"></app-audio-player>
 } @else {
   <section class="mx-auto max-w-4xl px-4 pb-16 pt-32 text-center">
     <h1 class="font-['Bebas_Neue'] text-4xl uppercase tracking-wider">Álbum no encontrado</h1>

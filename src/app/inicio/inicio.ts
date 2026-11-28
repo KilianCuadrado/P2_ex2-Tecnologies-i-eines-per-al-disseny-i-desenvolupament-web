@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RouterLink } from '@angular/router';
 import { ALBUMS_DATA } from '../data/albums.data';
 import { GalleryComponent } from '../gallery/gallery';
+import { AudioPlayerComponent } from '../audio-player/audio-player';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink, GalleryComponent],
+  imports: [ReactiveFormsModule, RouterLink, GalleryComponent, AudioPlayerComponent],
   selector: 'app-inicio',
   templateUrl: './inicio.html',
 })
